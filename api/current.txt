@@ -5456,6 +5456,7 @@ package android.content {
     field public static final java.lang.String POWER_SERVICE = "power";
     field public static final java.lang.String SEARCH_SERVICE = "search";
     field public static final java.lang.String SENSOR_SERVICE = "sensor";
+	field public static final java.lang.String SENSORHUB_SERVICE = "sensorhub"; // add by Haichen Shen
     field public static final java.lang.String STORAGE_SERVICE = "storage";
     field public static final java.lang.String TELEPHONY_SERVICE = "phone";
     field public static final java.lang.String TEXT_SERVICES_MANAGER_SERVICE = "textservices";
@@ -10259,6 +10260,31 @@ package android.hardware.usb {
     method public void setClientData(java.lang.Object);
   }
 
+}
+
+// add by Haichen Shen
+package android.hardware.sensorhub {
+
+	public class SensorStruct {
+		ctor public SensorStruct();
+		method public void constructSensorStruct(char, char, char);
+		method public void constructSensorStruct(char, char, char, char, char);
+		field public char appID;
+		field public char notificationID;
+		field public char taskID;
+		field public char sensorID;
+		field public char persistent;
+		field public static final char TaskReturn = 48;
+		field public static final char TaskCancel = 49;
+		field public static final char TaskBuffer = 50;
+		field public static final char sensorAccel = 48;
+		field public static final char sensorAcoustic = 49;
+	}
+
+	public class SensorHubManager {
+		ctor public SensorHubManager(android.content.Context);
+		method public boolean registerListener(android.hardware.SensorEventListener, int, int);
+	}
 }
 
 package android.inputmethodservice {

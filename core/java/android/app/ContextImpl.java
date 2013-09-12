@@ -53,6 +53,7 @@ import android.hardware.SystemSensorManager;
 import android.hardware.display.DisplayManager;
 import android.hardware.input.IInputManager;
 import android.hardware.input.InputManager;
+import android.hardware.sensorhub.SensorHubManager; // add by Haichen Shen
 import android.hardware.usb.IUsbManager;
 import android.hardware.usb.UsbManager;
 import android.location.CountryDetector;
@@ -453,6 +454,12 @@ class ContextImpl extends Context {
                 public Object createService(ContextImpl ctx) {
                     return new SystemSensorManager(ctx.mMainThread.getHandler().getLooper());
                 }});
+
+		// add by Haichen Shen
+		registerService(SENSORHUB_SERVICE, new ServiceFetcher() {
+				public Object createService(ContextImpl ctx) {
+					return new SensorHubManager(ctx);
+				}});
 
         registerService(STATUS_BAR_SERVICE, new ServiceFetcher() {
                 public Object createService(ContextImpl ctx) {

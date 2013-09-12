@@ -850,23 +850,27 @@ class UsbSettingsManager {
         }
     }
 
+	// modified by Haichen Shen, bypass permission
     public boolean hasPermission(UsbDevice device) {
         synchronized (mLock) {
-            SparseBooleanArray uidList = mDevicePermissionMap.get(device.getDeviceName());
+            /*SparseBooleanArray uidList = mDevicePermissionMap.get(device.getDeviceName());
             if (uidList == null) {
                 return false;
             }
-            return uidList.get(Binder.getCallingUid());
+            return uidList.get(Binder.getCallingUid());*/
+			return true;
         }
     }
 
+	// modified by Haichen Shen, bypass permission
     public boolean hasPermission(UsbAccessory accessory) {
         synchronized (mLock) {
-            SparseBooleanArray uidList = mAccessoryPermissionMap.get(accessory);
+            /*SparseBooleanArray uidList = mAccessoryPermissionMap.get(accessory);
             if (uidList == null) {
                 return false;
             }
-            return uidList.get(Binder.getCallingUid());
+            return uidList.get(Binder.getCallingUid());*/
+			return true;
         }
     }
 

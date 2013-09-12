@@ -1944,6 +1944,17 @@ public abstract class Context {
      */
     public static final String SENSOR_SERVICE = "sensor";
 
+	/**
+	 * add by Haichen Shen
+	 * Use with {@link #getSystemService} to retrieve a {@link
+	 * android.hardware.sensorhub.SensorHubManager} for accessing
+	 * sensor hub.
+	 *
+	 * @see #getSystemService
+	 * @see android.hardware.sensorhub.SensorHubManager
+	 */
+	public static final String SENSORHUB_SERVICE = "sensorhub";
+
     /**
      * Use with {@link #getSystemService} to retrieve a {@link
      * android.os.storage.StorageManager} for accessing system storage
