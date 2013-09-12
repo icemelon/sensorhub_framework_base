@@ -136,6 +136,12 @@ public final class Sensor {
     Sensor() {
     }
 
+	Sensor(String name, String vendor, int type) {
+		mName = name;
+		mVendor = vendor;
+		mType = type;
+	}
+
     /**
      * @return name string of the sensor.
      */

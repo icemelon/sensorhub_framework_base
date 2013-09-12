@@ -1947,11 +1947,11 @@ public abstract class Context {
 	/**
 	 * add by Haichen Shen
 	 * Use with {@link #getSystemService} to retrieve a {@link
-	 * android.hardware.sensorhub.SensorHubManager} for accessing
+	 * android.hardware.SensorHubManager} for accessing
 	 * sensor hub.
 	 *
 	 * @see #getSystemService
-	 * @see android.hardware.sensorhub.SensorHubManager
+	 * @see android.hardware.SensorHubManager
 	 */
 	public static final String SENSORHUB_SERVICE = "sensorhub";
 

@@ -10086,6 +10086,12 @@ package android.hardware {
     field public static final float STANDARD_GRAVITY = 9.80665f;
   }
 
+  public class SensorHubManager {
+	method public java.util.List<android.hardware.Sensor> getSensorList();
+	method public void registerListener(android.hardware.SensorEventListener, int, int, short);
+	method public void unregisterListener(android.hardware.SensorEventListener, int);
+	}
+
 }
 
 package android.hardware.display {
@@ -10262,29 +10268,37 @@ package android.hardware.usb {
 
 }
 
-// add by Haichen Shen
 package android.hardware.sensorhub {
+  public class SensorHub {
+	ctor public SensorHub(android.hardware.usb.UsbManager);
+	method public synchronized boolean open();
+	method public synchronized void close();
+	method public synchronized void sendBuffer(android.hardware.sensorhub.TaskHeader, char, short, short);
+	method public synchronized void sendCancel(android.hardware.sensorhub.TaskHeader);
+	method public synchronized void sendReturn(android.hardware.sensorhub.TaskHeader);
+	method public synchronized java.lang.String read();
+	method public synchronized void log(java.lang.String);
+	field public static final int COMM_DELAY = 2;
+  }
 
-	public class SensorStruct {
-		ctor public SensorStruct();
-		method public void constructSensorStruct(char, char, char);
-		method public void constructSensorStruct(char, char, char, char, char);
-		field public char appID;
-		field public char notificationID;
-		field public char taskID;
-		field public char sensorID;
-		field public char persistent;
-		field public static final char TaskReturn = 48;
-		field public static final char TaskCancel = 49;
-		field public static final char TaskBuffer = 50;
-		field public static final char sensorAccel = 48;
-		field public static final char sensorAcoustic = 49;
-	}
+  public final class Task {
+	method public static byte[] generateBufferTask(android.hardware.sensorhub.TaskHeader, char, char, short, short);
+	method public static byte[] generateReturnTask(android.hardware.sensorhub.TaskHeader);
+	method public static byte[] generateCancelTask(android.hardware.sensorhub.TaskHeader);
+	field public static final char TaskReturn = 48;
+	field public static final char TaskCancel = 49;
+	field public static final char TaskBuffer = 50;
+	field public static final char sensorAccel = 48;
+	field public static final char sensorMicrophone = 49;
+  }
 
-	public class SensorHubManager {
-		ctor public SensorHubManager(android.content.Context);
-		method public boolean registerListener(android.hardware.SensorEventListener, int, int);
-	}
+  public class TaskHeader {
+	ctor public TaskHeader(char);
+	method public void increaseNotification();
+	method public void convertToByte(byte[]);
+	field public final char appID;
+	field public char notificationID;
+  }
 }
 
 package android.inputmethodservice {
