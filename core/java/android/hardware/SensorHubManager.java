@@ -258,11 +258,12 @@ public class SensorHubManager {
 		return sSensorsList;
 	}
 	
-	public void registerListener(SensorEventListener listener, int sensor, int rate, short num) {
+	public void registerListener(SensorEventListener listener, int sensor, int rate, int numToBuffer) {
 		
 		if (sensor != Sensor.TYPE_ACCELEROMETER)
 			return;
-		
+	
+		short num = (short)numToBuffer;
 		short delay = -1; // ms
 		switch (rate) {
 		case SensorManager.SENSOR_DELAY_FASTEST:

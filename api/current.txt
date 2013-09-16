@@ -10088,7 +10088,7 @@ package android.hardware {
 
   public class SensorHubManager {
 	method public java.util.List<android.hardware.Sensor> getSensorList();
-	method public void registerListener(android.hardware.SensorEventListener, int, int, short);
+	method public void registerListener(android.hardware.SensorEventListener, int, int, int);
 	method public void unregisterListener(android.hardware.SensorEventListener, int);
 	}
 

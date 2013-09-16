@@ -55,7 +55,7 @@ class UsbId {
 public class FTDriver {
 
     private static final boolean LOCAL_LOGV = true;
-    private static String fileDir = "/mnt/sdcard/logcatfiles/";
+    private static String fileDir = "/data/logcatfiles/";
     /*
      * USB read packet loss checker If true then checking USB read packet loss
      * and displaying messages to Logcat requirement : microcomputer send
@@ -1107,7 +1107,7 @@ public class FTDriver {
     
     //added by aruna to log into a file
     public void writeToLog(String text){
-    	String logFileName = fileDir + fileName;
+    	/*String logFileName = fileDir + fileName;
     	//long fileID = System.currentTimeMillis();
     	//String filename = "log_" + fileID;
     	 FileOutputStream fos;
@@ -1124,8 +1124,8 @@ public class FTDriver {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-         
+		}*/
+        Log.d("SensorHub", text);
     }
     
     private String toHexStr(int val) {
