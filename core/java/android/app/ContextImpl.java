@@ -458,7 +458,7 @@ class ContextImpl extends Context {
 		// add by Haichen Shen
 		registerService(SENSORHUB_SERVICE, new ServiceFetcher() {
 				public Object createService(ContextImpl ctx) {
-					return new SensorHubManager(ctx.mMainThread.getHandler().getLooper());
+					return new SensorHubManager(ctx);
 				}});
 
         registerService(STATUS_BAR_SERVICE, new ServiceFetcher() {

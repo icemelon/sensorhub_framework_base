@@ -666,6 +666,12 @@ public class Intent implements Parcelable, Cloneable {
     @SdkConstant(SdkConstantType.ACTIVITY_INTENT_ACTION)
     public static final String ACTION_PICK = "android.intent.action.PICK";
 
+	/**
+	 * add by Haichen Shen
+	 */
+	@SdkConstant(SdkConstantType.ACTIVITY_INTENT_ACTION)
+	public static final String ACTION_READ_SENSOR = "android.intent.action.READ_SENSOR";
+
     /**
      * Activity Action: Creates a shortcut.
      * <p>Input: Nothing.</p>

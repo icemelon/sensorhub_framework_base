@@ -10,6 +10,10 @@ public class TaskHeader {
 		this.appID = appID;
 		this.notificationID = '0';
 	}
+
+	public void reset() {
+		notificationID = '0';
+	}
 	
 	/*public void setTask(char taskID) {
 		this.taskID = taskID;
