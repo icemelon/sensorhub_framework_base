@@ -34,8 +34,8 @@ public class SensorHub {
 				Log.d(TAG, "Failed open USB device");
 				return false;
 			}
+			Log.d(TAG, "Serial opens");
 		}
-		Log.d(TAG, "Serial opens");
 	
 		return true;
 	}
@@ -46,26 +46,26 @@ public class SensorHub {
 	}
 	
 	public synchronized void sendBuffer(TaskHeader header, char sensor, short delay, short num) {
-		Log.d(TAG, "inside buffer");
 		byte[] buf = Task.generateBufferTask(header, sensor, '0', delay, num);
 		mSerial.write(buf);
+		Log.d(TAG, "buffer sent");
 	}
 	
 	public synchronized void sendCancel(TaskHeader header) {
-		Log.d(TAG, "inside cancel");
 		byte[] buf = Task.generateCancelTask(header);
 		mSerial.write(buf);
+		Log.d(TAG, "cancel sent");
 	}
 	
 	public synchronized void sendReturn(TaskHeader header) {
-		Log.d(TAG, "inside return");
 		byte[] buf = Task.generateReturnTask(header);
 		mSerial.write(buf);
+		Log.d(TAG, "return sent");
 	}
 	
 	public synchronized String read() {
 		
-		Log.d(TAG, "inside read");
+		//Log.d(TAG, "read start");
 		
 		// [FTDriver] Create Read Buffer
         byte[] rbuffer = new byte[4096]; // 1byte <--slow-- [Transfer Speed] --fast--> 4096 byte
@@ -77,15 +77,15 @@ public class SensorHub {
         	len = mSerial.read(rbuffer);
         }
         
-        mSerial.writeToLog("length of the string is " + len);
+        //mSerial.writeToLog("length of the string is " + len);
         /** If not, then look at the string **/
-        String str = "";
-        for (int i = 0; i < len; i++){
-        	str += (char) rbuffer[i];
+        StringBuilder sb = new StringBuilder(len + 1);
+        for (int i = 0; i < len; i++) {
+			sb.append((char) rbuffer[i]);
         }
-        mSerial.writeToLog("read string " + str);
-        
-        return str;
+        //mSerial.writeToLog("read string " + str);
+        Log.d(TAG, "read finished");
+        return sb.toString();
 	}
 	
 	public synchronized void log(String str) {

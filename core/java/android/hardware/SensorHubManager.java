@@ -71,10 +71,10 @@ public class SensorHubManager {
 			ctx.registerReceiver(mReceiver, filter);
 		}
 		
-		public void startLocked(short delay, short num) {
+		public boolean startLocked(short delay, short num) {
 			if (reader == null) {
 				if (!mSensorHub.open())
-					return;
+					return false;
 				mHeader.reset();
 				sampleDelay = delay;
 				numSamples = num;
@@ -97,6 +97,7 @@ public class SensorHubManager {
 						numSamples = num;
 				}
 			}
+			return true;
 		}
 		
 		// return: num of samples; -1 if appID or notificationID doesn't match
@@ -151,9 +152,9 @@ public class SensorHubManager {
 					for (i = start; i < end; i++) {
 						String[] data = strList[i].split(",");
 						SensorEvent event = new SensorEvent(3);
-						event.values[0] = Integer.parseInt(data[0]);
-						event.values[1] = Integer.parseInt(data[1]);
-						event.values[2] = Integer.parseInt(data[2]);
+						event.values[0] = (float)(Integer.parseInt(data[0]) / 16384.0 * 9.8);
+						event.values[1] = (float)(Integer.parseInt(data[1]) / 16384.0 * 9.8);
+						event.values[2] = (float)(Integer.parseInt(data[2]) / 16384.0 * 9.8);
 						event.sensor = sSensorsMap.get(Sensor.TYPE_ACCELEROMETER);
 						mSensorEventList.add(event);
 						//Log.d(TAG, "data " + i + ": " + event.values[0] + ", " + event.values[1] + ", " + event.values[2]);
@@ -174,7 +175,6 @@ public class SensorHubManager {
 			synchronized (sListeners) {
 				Log.d(TAG, "start to send back sensor data");
 				if (sListeners.isEmpty()) {
-					mSensorHub.close();
 					mAlarmManager.cancel(reader);
 					reader = null;
 					return;
@@ -252,11 +252,15 @@ public class SensorHubManager {
 		return sSensorsList;
 	}
 	
-	public void registerListener(SensorEventListener listener, int sensor, int rate, int numToBuffer) {
+	public boolean registerListener(SensorEventListener listener, Sensor sensor, int rate, int numToBuffer) {
 		
-		if (sensor != Sensor.TYPE_ACCELEROMETER)
-			return;
-		
+		if (sensor.getType() != Sensor.TYPE_ACCELEROMETER)
+		{
+			Log.d(TAG, "Sensor " + sensor.getType() + " not supported");
+			return false;
+		}
+	
+		boolean ret = true;
 		short num = (short)numToBuffer;
 		short delay = -1; // ms
 		switch (rate) {
@@ -291,12 +295,27 @@ public class SensorHubManager {
 				sListeners.add(l);
 			}
 			
-			sSensorHub.startLocked(delay, num);
+			ret = sSensorHub.startLocked(delay, num);
+		}
+
+		return ret;
+	}
+
+	public void unregisterListener(SensorEventListener listener) {
+		synchronized (sListeners) {
+			final int size = sListeners.size();
+			for (int i = 0; i < size; i++) {
+				ListenerDelegate l = sListeners.get(i);
+				if (l.getListener() == listener) {
+					sListeners.remove(i);
+					break;
+				}
+			}
 		}
 	}
 	
-	public void unregisterListener(SensorEventListener listener, int sensor) {
-		if (sensor != Sensor.TYPE_ACCELEROMETER)
+	public void unregisterListener(SensorEventListener listener, Sensor sensor) {
+		if (sensor.getType() != Sensor.TYPE_ACCELEROMETER)
 			return;
 		
 		synchronized (sListeners) {
